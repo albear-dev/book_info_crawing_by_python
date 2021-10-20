@@ -8,7 +8,7 @@ class Yes24Factory:
     def __init__(self):
         pass
 
-    __fetch_size = 200
+    __fetch_size = 5
     __fetch_key = "FetchSize"
 
     __url = "http://www.yes24.com"

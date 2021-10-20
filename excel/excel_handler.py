@@ -11,6 +11,7 @@ class ExcelHandler:
     def __init__(self, path, filename):
         self.page_processing_queue = Queue()
         self.write_wb = Workbook()
+        self.write_wb.remove_sheet(self.write_wb.get_sheet_by_name('Sheet'))
         self.path = path
         self.filename = filename
         self.worker = threading.Thread(target=self.excel_write)
