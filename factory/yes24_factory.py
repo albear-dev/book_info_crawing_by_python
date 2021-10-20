@@ -12,10 +12,10 @@ class Yes24Factory:
     __fetch_key = "FetchSize"
 
     __url = "http://www.yes24.com"
-    __url_total = __url + "/24/category/bestsellerExcel?CategoryNumber=001&sumgb=06"
-    __url_monthly = __url + "/24/category/bestsellerExcel?CategoryNumber=001&sumgb=09"
-    __url_weekly = __url + "/24/category/bestsellerExcel?CategoryNumber=001&sumgb=08"
-    __url_daily = __url + "/24/category/bestsellerExcel?CategoryNumber=001&sumgb=07"
+    __url_total = __url + "/24/category/bestsellerExcel?CategoryNumber=001&sumgb=06&FetchSize="+str(__fetch_size)
+    __url_monthly = __url + "/24/category/bestsellerExcel?CategoryNumber=001&sumgb=09&FetchSize="+str(__fetch_size)
+    __url_weekly = __url + "/24/category/bestsellerExcel?CategoryNumber=001&sumgb=08&FetchSize="+str(__fetch_size)
+    __url_daily = __url + "/24/category/bestsellerExcel?CategoryNumber=001&sumgb=07&FetchSize="+str(__fetch_size)
 
     def create_site_info(self):
         _site_info = SiteInfo(SiteType.YES24)
