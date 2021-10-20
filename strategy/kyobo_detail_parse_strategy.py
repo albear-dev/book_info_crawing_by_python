@@ -1,10 +1,13 @@
 from strategy.parse_strategy import ParseStrategy
 from book.book_info import BookInfo
 from bs4 import BeautifulSoup
+from type.rank_type import RankType
+from type.site_type import SiteType
 
 class KyoboDetailParseStrategy(ParseStrategy):
     def __init__(self):
-        pass
+        self.site_type = SiteType.KYOBO
+        self.rank_type = RankType.NONE
 
     def parse(self, dom: BeautifulSoup):
         title_item = dom.select('div.box_detail_point')

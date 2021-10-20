@@ -1,10 +1,13 @@
 from strategy.parse_strategy import ParseStrategy
 from book.book_info import BookInfo
 from bs4 import BeautifulSoup
+from type.rank_type import RankType
+from type.site_type import SiteType
 
 class Yes24DetailParseStrategy(ParseStrategy):
     def __init__(self):
-        pass
+        self.site_type = SiteType.YES24
+        self.rank_type = RankType.NONE
 
     def parse(self, dom: BeautifulSoup):
         title_item = dom.select('#yDetailTopWrap > div.topColRgt > div.gd_infoTop')

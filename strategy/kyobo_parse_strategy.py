@@ -3,6 +3,7 @@ from book.book_info import BookInfo
 from bs4 import BeautifulSoup
 from type.rank_type import RankType
 from page.page_info import PageInfo
+from type.site_type import SiteType
 from crawling_page_manager import CrawlingPageManager
 from strategy.kyobo_detail_parse_strategy import KyoboDetailParseStrategy
 from crlogging.cr_logger import CRLogger
@@ -21,7 +22,8 @@ class KyoboParseStrategy(ParseStrategy):
     __logger = CRLogger.get_logger(__name__)
 
     def __init__(self):
-        pass
+        self.site_type = SiteType.KYOBO
+        self.rank_type = RankType.NONE
 
     def parse(self, dom: BeautifulSoup):
         dom_list = dom.select('table > tr')
@@ -31,7 +33,7 @@ class KyoboParseStrategy(ParseStrategy):
             if i <= 2:
                 continue
 
-            self.__logger.debug('Processing Kyobo...[%d/%d]', i, len(dom_list) - 1)
+            self.__logger.debug('Processing [%s/%s][%d/%d]', SiteType.KYOBO, self.rank_type, i, len(dom_list) - 1)
             item = row.find_all("td")
             book_info = BookInfo()
 

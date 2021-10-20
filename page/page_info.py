@@ -11,4 +11,6 @@ class PageInfo:
         self.fetch_var_name = fetch_var_name
         self.fetch_size = fetch_size
         self.parse_strategy = parse_strategy
+        self.parse_strategy.rank_type = rank_type
+
         self.book_info_collection = list()

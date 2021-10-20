@@ -3,6 +3,7 @@ from book.book_info import BookInfo
 from bs4 import BeautifulSoup
 from type.rank_type import RankType
 from page.page_info import PageInfo
+from type.site_type import SiteType
 from crawling_page_manager import CrawlingPageManager
 from strategy.yes24_detail_parse_strategy import Yes24DetailParseStrategy
 import csv
@@ -30,7 +31,8 @@ class AladinParseStrategy(ParseStrategy):
     __logger = CRLogger.get_logger(__name__)
 
     def __init__(self):
-        pass
+        self.site_type = SiteType.ALADIN
+        self.rank_type = RankType.NONE
 
     def parse(self, dom: BeautifulSoup):
         splitted_text = dom.text.split('\n')
@@ -41,7 +43,7 @@ class AladinParseStrategy(ParseStrategy):
             if i == 0:
                 continue
 
-            self.__logger.debug('Processing Aladin...[%d/%d]', i, 1000)
+            self.__logger.debug('Processing [%s/%s][%d/%d]', SiteType.ALADIN, self.rank_type, i, 1000)
             book_info = BookInfo()
 
             # 순위

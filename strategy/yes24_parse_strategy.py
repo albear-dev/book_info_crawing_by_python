@@ -2,7 +2,9 @@ from strategy.parse_strategy import ParseStrategy
 from book.book_info import BookInfo
 from bs4 import BeautifulSoup
 from type.rank_type import RankType
+from type.site_type import SiteType
 from page.page_info import PageInfo
+from sites.site_info import SiteInfo
 from crawling_page_manager import CrawlingPageManager
 from strategy.yes24_detail_parse_strategy import Yes24DetailParseStrategy
 from crlogging.cr_logger import CRLogger
@@ -23,17 +25,20 @@ class Yes24ParseStrategy(ParseStrategy):
     __logger = CRLogger.get_logger(__name__)
 
     def __init__(self):
-        pass
+        self.site_type = SiteType.YES24
+        self.rank_type = RankType.NONE
 
     def parse(self, dom: BeautifulSoup):
         dom_list = dom.select('table > tr')
 
         book_list = list()
+        page_manager = CrawlingPageManager()
+
         for i, row in enumerate(dom_list):
             if i == 0:
                 continue
 
-            self.__logger.debug('Processing Yes24...[%d/%d]', i, len(dom_list)-1)
+            self.__logger.debug('Processing [%s/%s][%d/%d]', SiteType.YES24, self.rank_type, i, len(dom_list)-1)
             item = row.find_all("td")
             book_info = BookInfo()
 
@@ -53,7 +58,9 @@ class Yes24ParseStrategy(ParseStrategy):
             book_info.shipping_date = item[self.__IDX_SHIPPING_DATE__].text
 
             #세부내용
-            book_info_detail = self.parse_detail(book_info.prod_no)
+            url_detail = "http://www.yes24.com/Product/Goods/" + book_info.prod_no
+            page = page_manager.crowling_page(SiteInfo(SiteType.YES24), PageInfo(self.rank_type, url_detail, None, None, Yes24DetailParseStrategy()))
+            book_info_detail = page.book_info_collection
             book_info.release_date = book_info_detail.release_date
             book_info.selling_score = book_info_detail.selling_score
             book_info.price = book_info_detail.price
@@ -76,8 +83,3 @@ class Yes24ParseStrategy(ParseStrategy):
             '''
 
         return book_list
-
-
-    def parse_detail(self, prod_no):
-        url_detail = "http://www.yes24.com/Product/Goods/" + prod_no
-        return CrawlingPageManager.crowling_page(PageInfo(RankType.NONE, url_detail, None, None, Yes24DetailParseStrategy()))

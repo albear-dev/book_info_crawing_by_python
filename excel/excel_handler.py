@@ -23,8 +23,8 @@ class ExcelHandler:
     def excel_write(self):
         while True:
             page = self.page_processing_queue.get()
-            #print("start excel write page[{0}]", page.title)
             self.__logger.info("Start excel write page [%s]", page.title)
+
 
 
 class ExcelCreateWorker(threading.Thread):
