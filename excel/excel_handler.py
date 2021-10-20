@@ -4,6 +4,7 @@ import os
 from queue import Queue
 import threading
 from crlogging.cr_logger import CRLogger
+from openpyxl.styles import PatternFill
 
 class ExcelHandler:
     __logger = CRLogger.get_logger(__name__)
@@ -50,6 +51,10 @@ class ExcelHandler:
                     data.release_date,
                     data.selling_score
                 ])
+
+                if data.publisher == "윌북":
+                    write_ws.cell(row=write_ws.max_row, column=6).fill = PatternFill(start_color='FFFFFF00', end_color='FFFFFF00', fill_type='solid')
+
             self.__logger.info("Finish write data to sheet [%s] count[%d]", page.title, len(page.book_info_collection))
 
         save_path = os.path.join(self.path, self.filename)
