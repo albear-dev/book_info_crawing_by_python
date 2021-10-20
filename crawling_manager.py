@@ -7,6 +7,7 @@ from crawling_page_manager import CrawlingPageManager
 from crlogging.cr_logger import CRLogger
 import threading
 import concurrent.futures
+import tracemalloc
 
 
 class CrawlingManager:
@@ -17,7 +18,9 @@ class CrawlingManager:
     @classmethod
     def start(cls, fn_update_callback, file_path, file_name):
         cls.__logger.debug("Start CrawlingManager!")
+        tracemalloc.start()
         excel_handler = ExcelHandler(file_path, file_name)
+        snapshot1 = tracemalloc.take_snapshot()
 
         # site별 worker 생성
         for site_type in SiteType:
@@ -28,9 +31,12 @@ class CrawlingManager:
             cls.__logger.info("End crowling page [%s][%s]", page.site_type, page.rank_type)
             excel_handler.add_page(future.result())
 
+        snapshot2 = tracemalloc.take_snapshot()
         excel_handler.add_page(None)
-
-        #excel_handler.add_page(None)
+        top_stats = snapshot2.compare_to(snapshot1, 'lineno')
+        cls.__logger.info("[ Top 10 differences ]")
+        for stat in top_stats[:10]:
+            cls.__logger.info(stat)
 
     @classmethod
     def stop(cls):
