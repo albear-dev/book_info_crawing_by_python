@@ -15,6 +15,7 @@ class CrawlingPageManager:
         if response.status_code == 200:
             page.book_info_collection = page.parse_strategy.parse(BeautifulSoup(response.text, 'html.parser'))
             page.title = site.site_type.desc + " " + page.rank_type.desc
+            page.site_type = site.site_type
             return page
         else:
             self.__logger.error('HTTP Response ERROR! [%s]', response.status_code)

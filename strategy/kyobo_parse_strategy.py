@@ -38,7 +38,7 @@ class KyoboParseStrategy(ParseStrategy):
             book_info = BookInfo()
 
             # 순위
-            book_info.rank = i
+            book_info.rank = item[self.__IDX_RANK__].text
             # ISBN
             book_info.isbn = item[self.__IDX_ISBN__].text
             # 상품코드

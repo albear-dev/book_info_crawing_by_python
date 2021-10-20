@@ -23,6 +23,15 @@ class CrawlingManager:
         for site_type in SiteType:
             cls.crowling(SiteFactory.create(site_type), excel_handler)
 
+        for future in concurrent.futures.as_completed(cls.workers):
+            page = future.result()
+            cls.__logger.info("End crowling page [%s][%s]", page.site_type, page.rank_type)
+            excel_handler.add_page(future.result())
+
+        excel_handler.add_page(None)
+
+        #excel_handler.add_page(None)
+
     @classmethod
     def stop(cls):
         #for t in cls.workers:
@@ -36,7 +45,3 @@ class CrawlingManager:
             cls.__logger.info("Start crowling page [%s][%s]", site.site_type, page.rank_type)
             cls.workers.append(cls.pool.submit(crawling_page_manager.crowling_page, site, page))
 
-        for future in concurrent.futures.as_completed(cls.workers):
-            page = future.result()
-            cls.__logger.info("End crowling page [%s][%s]", site.site_type, page.rank_type)
-            excel_handler.add_page(future.result())
