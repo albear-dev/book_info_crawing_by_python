@@ -34,7 +34,7 @@ class AladinParseStrategy(ParseStrategy):
         self.site_type = SiteType.ALADIN
         self.rank_type = RankType.NONE
 
-    def parse(self, dom: BeautifulSoup):
+    def parse(self, dom, ui_option):
         splitted_text = dom.text.split('\n')
         wrapper = csv.reader(splitted_text)
         book_list = list()

@@ -25,7 +25,7 @@ class KyoboParseStrategy(ParseStrategy):
         self.site_type = SiteType.KYOBO
         self.rank_type = RankType.NONE
 
-    def parse(self, dom: BeautifulSoup):
+    def parse(self, dom, ui_option):
         dom_list = dom.select('table > tr')
 
         book_list = list()

@@ -28,7 +28,7 @@ class Yes24ParseStrategy(ParseStrategy):
         self.site_type = SiteType.YES24
         self.rank_type = RankType.NONE
 
-    def parse(self, dom: BeautifulSoup):
+    def parse(self, dom, ui_option):
         dom_list = dom.select('table > tr')
 
         book_list = list()
@@ -58,12 +58,19 @@ class Yes24ParseStrategy(ParseStrategy):
             book_info.shipping_date = item[self.__IDX_SHIPPING_DATE__].text
 
             #세부내용
-            url_detail = "http://www.yes24.com/Product/Goods/" + book_info.prod_no
-            page = page_manager.crowling_page(SiteInfo(SiteType.YES24), PageInfo(self.rank_type, url_detail, None, None, Yes24DetailParseStrategy()))
-            book_info_detail = page.book_info_collection
-            book_info.release_date = book_info_detail.release_date
-            book_info.selling_score = book_info_detail.selling_score
-            book_info.price = book_info_detail.price
+            if ui_option.detail_info:
+                url_detail = "http://www.yes24.com/Product/Goods/" + book_info.prod_no
+                page = page_manager.crowling_page(SiteInfo(SiteType.YES24),
+                                                  PageInfo(self.rank_type, url_detail, None, None,
+                                                           Yes24DetailParseStrategy()), ui_option)
+                book_info_detail = page.book_info_collection
+                book_info.release_date = book_info_detail.release_date
+                book_info.selling_score = book_info_detail.selling_score
+                book_info.price = book_info_detail.price
+            else:
+                book_info.release_date = "-"
+                book_info.selling_score = "-"
+                book_info.price = "-"
 
             book_list.append(book_info)
 

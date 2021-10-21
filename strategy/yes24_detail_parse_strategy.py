@@ -12,7 +12,7 @@ class Yes24DetailParseStrategy(ParseStrategy):
         self.site_type = SiteType.YES24
         self.rank_type = RankType.NONE
 
-    def parse(self, dom: BeautifulSoup):
+    def parse(self, dom: BeautifulSoup, component_binder):
         title_item = dom.select('#yDetailTopWrap > div.topColRgt > div.gd_infoTop')
         body_item = dom.select('#yDetailTopWrap > div.topColRgt > div.gd_infoBot> div.gd_infoTbArea')
         book_info = BookInfo()
