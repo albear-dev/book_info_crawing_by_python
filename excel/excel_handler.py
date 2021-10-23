@@ -54,15 +54,25 @@ class ExcelHandler:
                     data.selling_score
                 ])
 
+                max_col = 9
                 if self.highlight_keyword:
                     keywords = self.highlight_keyword.split(",")
                     for keyword in keywords:
                         if data.prod_nm and data.prod_nm.find(keyword) > -1:
-                            write_ws.cell(row=write_ws.max_row, column=3).fill = PatternFill(start_color='FFFFFF00', end_color='FFFFFF00', fill_type='solid')
+                            for rows in write_ws.iter_rows(min_row=write_ws.max_row, max_row=write_ws.max_row, min_col=1, max_col=max_col):
+                                for cell in rows:
+                                    cell.fill = PatternFill(start_color='FFFFFF00', end_color='FFFFFF00', fill_type='solid')
+                            write_ws.cell(row=write_ws.max_row, column=3).fill = PatternFill(start_color='FFBB33', end_color='FFBB33', fill_type='solid')
                         if data.publisher and data.publisher.find(keyword) > -1:
-                            write_ws.cell(row=write_ws.max_row, column=6).fill = PatternFill(start_color='FFFFFF00', end_color='FFFFFF00', fill_type='solid')
+                            for rows in write_ws.iter_rows(min_row=write_ws.max_row, max_row=write_ws.max_row, min_col=1, max_col=max_col):
+                                for cell in rows:
+                                    cell.fill = PatternFill(start_color='FFFFFF00', end_color='FFFFFF00', fill_type='solid')
+                            write_ws.cell(row=write_ws.max_row, column=6).fill = PatternFill(start_color='FFBB33', end_color='FFBB33', fill_type='solid')
                         if data.author and data.author.find(keyword) > -1:
-                            write_ws.cell(row=write_ws.max_row, column=7).fill = PatternFill(start_color='FFFFFF00', end_color='FFFFFF00', fill_type='solid')
+                            for rows in write_ws.iter_rows(min_row=write_ws.max_row, max_row=write_ws.max_row, min_col=1, max_col=max_col):
+                                for cell in rows:
+                                    cell.fill = PatternFill(start_color='FFFFFF00', end_color='FFFFFF00', fill_type='solid')
+                            write_ws.cell(row=write_ws.max_row, column=7).fill = PatternFill(start_color='FFBB33', end_color='FFBB33', fill_type='solid')
 
             self.__logger.info("Finish write data to sheet [%s] count[%d]", page.title, len(page.book_info_collection))
 
